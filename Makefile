@@ -1,6 +1,7 @@
 #MAKEFILE Transform source files into deliverables
 
 docs = $(addprefix build/, \
+	CN1-MFG-001.pdf \
 	CN1-REQ-001.pdf \
 	)
 drawings = $(addprefix build/, \
