@@ -27,9 +27,9 @@ Vous trouverez la liste des matériaux et de la quincaillerie nécessaires au se
 * QCAD Professional pour les dessins techniques;
 * LibreOffice 6.* pour les documents;
 * PDFtk pour manipuler les fichiers PDF;
-* MinGW (mingw32-base-bin 2013072200) pour les outils de développement de base.
+* Visual Studio Build Tools 2019 pour les outils de développement de base.
 
 # Construire les artefacts
-Avec l'environnement de développement correct, il vous suffit de lancer la commande "mingw32-make" depuis une invite de commande cmd.exe à la racine du projet et les documents seront générés dans le répertoire "build".
+Avec l'environnement de développement correct, il vous suffit de lancer la commande "nmake" depuis une invite de commande de développeur pour Visual Studio 2019 ("Developer Command Prompt for VS 2019") à la racine du projet. Les documents seront générés dans le répertoire "build".
 
-En cas d'erreurs "'X' n'est pas reconnu en tant que commande interne ou externe [...]", vérifiez que les exécutables de LibreOffice, QCAD, PDFtk et MinGW sont dans votre PATH.
+En cas d'erreurs "'X' n'est pas reconnu en tant que commande interne ou externe [...]", vérifiez que les exécutables de LibreOffice, QCAD, PDFtk sont dans votre PATH.
