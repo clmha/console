@@ -4,12 +4,9 @@ odir = build
 docs = \
 	$(odir)\CN1-MFG-001.pdf \
 	$(odir)\CN1-REQ-001.pdf
-# drawings = $(addprefix build/, \
-# 	CN1-ASY-001.pdf \
-# 	CN1-PRT-001.pdf \
-# 	)
-
-# sheets = $(sort $(patsubst drawing/%,sheet/%,$(patsubst %.dxf,%.pdf,$(wildcard drawing/*.dxf))))
+drawings = \
+	$(odir)\CN1-ASY-001.pdf \
+	$(odir)\CN1-PRT-001.pdf
 
 # *
 # * Office
@@ -37,18 +34,19 @@ docs = \
 #               dwg2pdf  1             pdftk  1
 # drawing/*.dxf---------->sheet/*.pdf--------->build/*.pdf
 #              1                     1..*
+.SUFFIXES: .dxf
 
-# # Pattern rule for converting a sheet DXF into a sheet PDF
-# sheet/%.pdf: drawing/%.dxf
-# 	dwg2pdf -f -o $@ $<
+# Pattern rule for converting a sheet DXF into a sheet PDF
+{drawing\}.dxf{sheet\}.pdf:
+	dwg2pdf -f -o $@ $<
 
-all: directories $(docs)
+all: directories $(docs) $(drawings)
 
-# build/CN1-ASY-001.pdf: $(filter sheet/CN1-ASY-001%,$(sheets))
-# 	pdftk $^ cat output $@
+$(odir)\CN1-ASY-001.pdf: sheet\CN1-ASY-001.pdf
+	pdftk $? cat output $@
 
-# build/CN1-PRT-001.pdf: $(filter sheet/CN1-PRT-001%,$(sheets))
-# 	pdftk $^ cat output $@
+$(odir)\CN1-PRT-001.pdf: sheet\CN1-PRT-001.pdf
+	pdftk $? cat output $@
 
 .PHONY: clean directories
 
