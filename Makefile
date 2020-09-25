@@ -8,6 +8,28 @@ drawings = \
 	$(odir)\CN1-ASY-001.pdf \
 	$(odir)\CN1-PRT-001.pdf
 
+all: directories $(docs) $(drawings)
+
+$(odir)\CN1-ASY-001.pdf: sheet\CN1-ASY-001.pdf
+	pdftk $? cat output $@
+
+$(odir)\CN1-PRT-001.pdf: sheet\CN1-PRT-001.pdf
+	pdftk $? cat output $@
+
+.PHONY: clean directories
+
+clean:
+	del $(odir)\*.pdf
+	del sheet\*.pdf
+
+directories: $(odir) sheet
+
+$(odir):
+	mkdir $(odir)
+
+sheet:
+	mkdir sheet
+
 # *
 # * Office
 # *
@@ -39,25 +61,3 @@ drawings = \
 # Pattern rule for converting a sheet DXF into a sheet PDF
 {drawing\}.dxf{sheet\}.pdf:
 	dwg2pdf -f -o $@ $<
-
-all: directories $(docs) $(drawings)
-
-$(odir)\CN1-ASY-001.pdf: sheet\CN1-ASY-001.pdf
-	pdftk $? cat output $@
-
-$(odir)\CN1-PRT-001.pdf: sheet\CN1-PRT-001.pdf
-	pdftk $? cat output $@
-
-.PHONY: clean directories
-
-clean:
-	del build\*.pdf
-	del sheet\*.pdf
-
-directories: build sheet
-
-build:
-	mkdir build
-
-sheet:
-	mkdir sheet
