@@ -11,10 +11,8 @@ drawings = \
 all: directories $(docs) $(drawings)
 
 $(odir)\CN1-ASY-001.pdf: sheet\CN1-ASY-001.pdf
-	pdftk $? cat output $@
 
 $(odir)\CN1-PRT-001.pdf: sheet\CN1-PRT-001.pdf
-	pdftk $? cat output $@
 
 .PHONY: clean directories
 
@@ -56,8 +54,12 @@ sheet:
 #               dwg2pdf  1             pdftk  1
 # drawing/*.dxf---------->sheet/*.pdf--------->build/*.pdf
 #              1                     1..*
-.SUFFIXES: .dxf
+.SUFFIXES: .dxf .pdf
 
 # Pattern rule for converting a sheet DXF into a sheet PDF
 {drawing\}.dxf{sheet\}.pdf:
 	dwg2pdf -f -o $@ $<
+
+# Pattern rule for concatenating sheet PDFs
+{sheet\}.pdf{build\}.pdf:
+	pdftk $** cat output $@
