@@ -11,8 +11,10 @@ drawings = \
 all: directories $(docs) $(drawings)
 
 $(odir)\CN1-ASY-001.pdf: sheet\CN1-ASY-001.pdf
+	pdftk $** cat output $@
 
 $(odir)\CN1-PRT-001.pdf: sheet\CN1-PRT-001.pdf
+	pdftk $** cat output $@
 
 .PHONY: clean directories
 
@@ -29,7 +31,7 @@ sheet:
 	mkdir sheet
 
 # *
-# * Office
+# * Rules of Office Documents
 # *
 # The toolchain only uses soffice and assumes there is one document per PDF:
 #
@@ -47,19 +49,15 @@ sheet:
 	soffice --convert-to pdf --outdir $(@D) $<
 
 # *
-# * Drawings
+# * Rules for Drawings
 # *
 # The toolchain from drawings to built artefact is:
 #
-#               dwg2pdf  1             pdftk  1
-# drawing/*.dxf---------->sheet/*.pdf--------->build/*.pdf
-#              1                     1..*
-.SUFFIXES: .dxf .pdf
+#               dwg2pdf  1           
+# drawing/*.dxf---------->sheet/*.pdf
+#              1
+.SUFFIXES: .dxf
 
 # Pattern rule for converting a sheet DXF into a sheet PDF
 {drawing\}.dxf{sheet\}.pdf:
 	dwg2pdf -f -o $@ $<
-
-# Pattern rule for concatenating sheet PDFs
-{sheet\}.pdf{build\}.pdf:
-	pdftk $** cat output $@
